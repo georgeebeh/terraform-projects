@@ -48,5 +48,13 @@ resource "aws_subnet" "public_subnet" {
     Name = "dev_public_subnet"
     }
   }
+resource "aws_internet_gateway" "dev_igw" {
+  vpc_id = aws_vpc.dev_vpc
+
+  tags = {
+    Name = "dev_igw"
+  }
+}
+
 
 
