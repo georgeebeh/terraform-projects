@@ -49,10 +49,27 @@ resource "aws_subnet" "public_subnet" {
     }
   }
 resource "aws_internet_gateway" "dev_igw" {
-  vpc_id = aws_vpc.dev_vpc
+  vpc_id = aws_vpc.dev_vpc.id
 
   tags = {
     Name = "dev_igw"
+  }
+}
+resource "aws_route_table" "dev_route_table" {
+  vpc_id = aws_vpc.dev_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.dev_igw.id
+  }
+
+  route {
+    ipv6_cidr_block        = "::/0"
+    egress_only_gateway_id = aws_internet_gateway.dev_igw.id
+  }
+
+  tags = {
+    Name = "Dev"
   }
 }
 
